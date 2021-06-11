@@ -14,6 +14,16 @@ public class WalletService {
 
     @Autowired
     private WalletRepository walletRepository;
+    public List<Wallet> getAll(){
+        return walletRepository.findAllByOrderByPriority();
+    }
+    public Wallet getById(Long id){
+        Optional<Wallet> wallet = walletRepository.findById(id);
+        if (wallet.isPresent()){
+            return wallet.get();
+        }
+        throw new WalletException("Wallet with "+id+"does not exists!");
+    }
 
     public Wallet createOrUpdate(Wallet wallet){
         if(wallet.getId() == null){
